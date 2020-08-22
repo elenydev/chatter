@@ -37,6 +37,16 @@ width: fit-content;
         }
     }
 `
+const SidebarAddButton = styled.button`
+font-weight: bold;
+font-size: 1.2rem;
+padding: 10px 30px;
+border: none;
+outline: none;
+background: transparent;
+margin-top: 10px;
+cursor: pointer;
+`
 
 const SidebarSearch = styled.div`
 display: flex;
@@ -74,7 +84,6 @@ display: flex;
 flex-direction: column;
 align-items: center;
 justify-content: center;
-margin-top: 20px;
 
 `
 const ChatItem = styled.div`
@@ -105,4 +114,4 @@ flex-direction: column;
 
 
 
-export { SidebarWrapper, SidebarHeader, SidebarHeaderIcons, SidebarSearch, SidebarSearchInput, SidebarChat, ChatItem, ChatItemInfo} 
+export { SidebarWrapper, SidebarHeader, SidebarHeaderIcons, SidebarSearch, SidebarSearchInput, SidebarChat, ChatItem, ChatItemInfo, SidebarAddButton} 

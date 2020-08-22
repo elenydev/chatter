@@ -1,15 +1,18 @@
 import React, {useState, useEffect} from 'react'
-import {MainWrapper, MainHeader, MainHeaderInfo, MainHeaderIcons} from './MainComps'
+import {MainWrapper, MainHeader, MainHeaderInfo, MainHeaderIcons, MainContent, MainFooter,MainFooterInput, Message, MessageContent } from './MainComps'
 import { Avatar, IconButton } from '@material-ui/core';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import SearchIcon from '@material-ui/icons/Search';
 import AttachFileIcon from '@material-ui/icons/AttachFile';
-
+import InsertEmoticonIcon from '@material-ui/icons/InsertEmoticon';
+import SendIcon from '@material-ui/icons/Send';
+import Messages from './Messages'
 function Main() {
     const [random, setRandom] = useState('');
-
+    const [randomChat, setRandomChat] = useState('')
     useEffect(() =>{
         setRandom(Math.floor(Math.random() * 3000 ));
+        setRandomChat(Math.floor(Math.random() * 3000 ))
     }, [])
 
     return (
@@ -32,6 +35,18 @@ function Main() {
                     </IconButton>
                 </MainHeaderIcons>
             </MainHeader>
+            <MainContent>
+               <Messages />
+            </MainContent>
+            <MainFooter>
+                <IconButton>
+                    <InsertEmoticonIcon />
+                </IconButton>
+                <MainFooterInput placeholder="Type a message.." />
+                <IconButton>
+                    <SendIcon />
+                </IconButton>
+            </MainFooter>
         </MainWrapper>
     )
 }
