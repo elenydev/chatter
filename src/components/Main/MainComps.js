@@ -45,6 +45,7 @@ background-color: #D8D8D8;
 border-bottom: 1px solid darkgray;
 padding: 15px;
 justify-content: flex-start;
+flex-direction: column;
 `
 const MainFooter = styled.div`
 display: flex;
@@ -71,7 +72,7 @@ const Message = styled.div`
 display: flex;
 justify-content: flex-start;
 width: 100%;
-margin-bottom: 6px;
+margin-bottom: 10px;
 align-items: center;
 height: fit-content;
 `
@@ -93,7 +94,7 @@ margin-left: 5px;
      position: absolute;
      left: 0%;
      top: -15px;
-     width: 100px;
+     width: 300px;
      font-size: 0.6rem;
      font-weight: bold;
      padding: 0 2px;

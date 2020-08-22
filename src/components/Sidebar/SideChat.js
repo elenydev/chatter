@@ -2,7 +2,10 @@ import React, {useEffect, useState} from 'react'
 import { ChatItem, ChatItemInfo  } from './SiebarComps'
 import { Avatar } from '@material-ui/core';
 import db from '../../services/firebase'
-
+import {
+  BrowserRouter as Router,
+  Link
+} from "react-router-dom";
 function SideChat() {
     const [rooms, setRooms] = useState([]);
 
@@ -20,16 +23,19 @@ function SideChat() {
 
     return (
         <>
+        <Router>
             {rooms.map(room => (
-                <ChatItem key={room.id} id={room.id}>
+                <Link key={room.id} to={`rooms/${room.id}`}>
+                <ChatItem id={room.id}>
                     <Avatar src={`https://avatars.dicebear.com/api/human/${room.id}.svg`}/>
                     <ChatItemInfo>
                         <h2>{room.data.name}</h2>
                         <p>Message</p>
                     </ChatItemInfo>
                 </ChatItem>
+                </Link>
             ))}
-            
+        </Router>    
         </>
     )
 }
