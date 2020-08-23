@@ -76,6 +76,20 @@ margin-bottom: 10px;
 align-items: center;
 height: fit-content;
 `
+const OwnMessage = styled.div`
+display: flex;
+justify-content: flex-end;
+width: 100%;
+margin-bottom: 10px;
+align-items: center;
+height: fit-content;
+  p{
+      background-color: #4285F4;
+  }
+  span{
+      right: 0%;
+  }
+`
 const MessageContent = styled.p`
 display: flex;
 padding: 3px 10px;
@@ -101,4 +115,4 @@ margin-left: 5px;
  }
 `
 
-export { MainWrapper, MainHeader, MainHeaderInfo, MainHeaderIcons, MainContent, MainFooter, MainFooterInput, MessageContent, Message }
+export { MainWrapper, MainHeader, MainHeaderInfo, MainHeaderIcons, MainContent, MainFooter, MainFooterInput, MessageContent, Message, OwnMessage }

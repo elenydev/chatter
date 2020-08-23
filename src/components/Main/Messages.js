@@ -1,8 +1,12 @@
 import React, {useState, useEffect} from 'react'
-import { Message, MessageContent } from './MainComps'
+import { Message, MessageContent, OwnMessage } from './MainComps'
 import { Avatar } from '@material-ui/core';
 import db from '../../services/firebase'
+import {useSelector} from 'react-redux'
+import {selectUser} from '../../features/user/userSlice'
 function Messages() {
+
+    const currentUser = useSelector(selectUser);
     const [randomChat, setRandomChat] = useState('')
     const [messages, setMessages] = useState([]);
     useEffect(() =>{
@@ -24,13 +28,26 @@ function Messages() {
     return (
        <>
        {messages.map(message => (
-        <Message key={message.message} >
-            <Avatar src={`https://avatars.dicebear.com/api/human/${randomChat}.svg`}/>
-            <MessageContent >
+           <>
+            {message.email === currentUser.email ? 
+            <OwnMessage key={message.message}>
+                <MessageContent >
                 {message.message}
                 <span>{message.author}</span>
-            </MessageContent>
-        </Message>
+                </MessageContent>
+            </OwnMessage>
+            : 
+            <>
+            <Message key={message.message}>
+                <Avatar src={`https://avatars.dicebear.com/api/human/${randomChat}.svg`}/>
+                <MessageContent >
+                    {message.message}
+                    <span>{message.author}</span>
+                </MessageContent>
+            </Message>
+            </>
+            }
+            </>
        ))}
        </>
 

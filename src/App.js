@@ -3,13 +3,36 @@ import './App.css'
 import Sidebar from './components/Sidebar/Sidebar'
 import Main from './components/Main/Main'
 import Login from './components/Login/Login'
+import {useSelector} from 'react-redux'
 import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link
+  Redirect
 } from "react-router-dom";
+import { selectUser } from './features/user/userSlice';
 function App() {
+  const currentUser = useSelector(selectUser);
+
+  const PrivateRoute = ({ children, ...rest }) => {
+    return (
+      <Route
+        {...rest}
+        render={({ location }) =>
+          currentUser ? (
+            children
+          ) : (
+            <Redirect
+              to={{
+                pathname: "/",
+                state: { from: location }
+              }}
+            />
+          )
+        }
+      />
+    );
+  }
   return (
     <div className="App">
       <div className="App__wrapper">
@@ -18,10 +41,10 @@ function App() {
           <Route path="/" exact>
             <Login/>
           </Route>
-          <Route path="/rooms">
+          <PrivateRoute path="/rooms">
             <Sidebar/>
             <Main/>
-          </Route>
+          </PrivateRoute>
         </Switch>
           
         </Router>
