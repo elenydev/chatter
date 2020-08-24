@@ -3,7 +3,6 @@ import { ChatItem, ChatItemInfo  } from './SiebarComps'
 import { Avatar } from '@material-ui/core';
 import db from '../../services/firebase'
 import {
-  BrowserRouter as Router,
   Link
 } from "react-router-dom";
 function SideChat() {
@@ -23,9 +22,8 @@ function SideChat() {
 
     return (
         <>
-        <Router>
             {rooms.map(room => (
-                <Link key={room.id} to={`rooms/${room.id}`}>
+                <Link key={room.id} to={`/rooms/${room.id}`}>
                 <ChatItem id={room.id}>
                     <Avatar src={`https://avatars.dicebear.com/api/human/${room.id}.svg`}/>
                     <ChatItemInfo>
@@ -34,8 +32,7 @@ function SideChat() {
                     </ChatItemInfo>
                 </ChatItem>
                 </Link>
-            ))}
-        </Router>    
+            ))}  
         </>
     )
 }

@@ -7,48 +7,30 @@ import {useSelector} from 'react-redux'
 import {
   BrowserRouter as Router,
   Switch,
-  Route,
-  Redirect
+  Route
 } from "react-router-dom";
 import { selectUser } from './features/user/userSlice';
 function App() {
   const currentUser = useSelector(selectUser);
 
-  const PrivateRoute = ({ children, ...rest }) => {
-    return (
-      <Route
-        {...rest}
-        render={({ location }) =>
-          currentUser ? (
-            children
-          ) : (
-            <Redirect
-              to={{
-                pathname: "/",
-                state: { from: location }
-              }}
-            />
-          )
-        }
-      />
-    );
-  }
   return (
     <div className="App">
+      {!currentUser ? ( <Login /> ) 
+      : (
       <div className="App__wrapper">
         <Router>
-        <Switch>
-          <Route path="/" exact>
-            <Login/>
-          </Route>
-          <PrivateRoute path="/rooms">
-            <Sidebar/>
-            <Main/>
-          </PrivateRoute>
-        </Switch>
-          
+          <Sidebar/>
+            <Switch>
+                <Route path="/rooms/:roomId">
+                  <Main/>
+                </Route>
+                <Route path="/rooms">
+                  <Main />
+                </Route>
+            </Switch>
         </Router>
       </div>
+      )}
     </div>
   );
 }

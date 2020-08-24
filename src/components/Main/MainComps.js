@@ -47,7 +47,7 @@ padding: 15px;
 justify-content: flex-start;
 flex-direction: column;
 `
-const MainFooter = styled.div`
+const MainFooter = styled.form`
 display: flex;
 height: 5vh;
 padding: 15px;
@@ -72,24 +72,11 @@ const Message = styled.div`
 display: flex;
 justify-content: flex-start;
 width: 100%;
-margin-bottom: 10px;
 align-items: center;
 height: fit-content;
+margin-bottom: 15px;
 `
-const OwnMessage = styled.div`
-display: flex;
-justify-content: flex-end;
-width: 100%;
-margin-bottom: 10px;
-align-items: center;
-height: fit-content;
-  p{
-      background-color: #4285F4;
-  }
-  span{
-      right: 0%;
-  }
-`
+
 const MessageContent = styled.p`
 display: flex;
 padding: 3px 10px;
@@ -107,12 +94,26 @@ margin-left: 5px;
      color: black;
      position: absolute;
      left: 0%;
-     top: -15px;
-     width: 300px;
+     top: -20px;
      font-size: 0.6rem;
      font-weight: bold;
      padding: 0 2px;
+     white-space: nowrap; 
  }
 `
-
+const OwnMessage = styled.div`
+display: flex;
+justify-content: flex-end;
+width: 100%;
+margin-bottom: 15px;
+align-items: center;
+height: fit-content;
+  p{
+      background-color: #4285F4;
+      margin-right: 5px;
+  }
+  span{
+      display: none;
+  }
+`
 export { MainWrapper, MainHeader, MainHeaderInfo, MainHeaderIcons, MainContent, MainFooter, MainFooterInput, MessageContent, Message, OwnMessage }
