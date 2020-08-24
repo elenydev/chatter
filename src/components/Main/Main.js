@@ -103,7 +103,7 @@ function Main() {
                 </IconButton>
                 <MainFooterInput placeholder="Type a message.." value={input} onChange={(e) => setInputValue(e.target.value)}/>
                 <IconButton>
-                    <SendIcon />
+                    <SendIcon onClick={sendMsg}/>
                 </IconButton>
             </MainFooter>
         </MainWrapper>
