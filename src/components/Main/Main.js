@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, useRef} from 'react'
 import {MainWrapper, MainHeader, MainHeaderInfo, MainHeaderIcons, MainContent, Message, MessageContent, OwnMessage } from './MainComps'
 import { Avatar, IconButton } from '@material-ui/core';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
@@ -17,6 +17,7 @@ function Main() {
     const [messages, setMessages] = useState([]);
     const [randomChat, setRandomChat] = useState('')
     const [roomName, setRoomName] = useState('');
+    const messageEndRef = useRef(null);
 
     useEffect(() =>{
         if(roomId) {
@@ -29,16 +30,25 @@ function Main() {
             .onSnapshot(snapshot => (
             setMessages(snapshot.docs.map(doc => doc.data())
             )));
+            
         }    
         
     }, [roomId])
 
+
     useEffect(() =>{
         setRandom(Math.floor(Math.random() * 3000 ));
         setRandomChat(Math.floor(Math.random() * 3000 ))
+
     },[roomId])
 
-
+    const scrollToBottom = () => {
+        if(messageEndRef){
+        messageEndRef.current.scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
+        }
+        else return
+     }
+    useEffect(scrollToBottom, [messages]);
     
     return (
         <MainWrapper>
@@ -60,7 +70,7 @@ function Main() {
                     </IconButton>
                 </MainHeaderIcons>
             </MainHeader>
-            <MainContent id="scroll">
+            <MainContent >
             <>
             {messages.map(message => {
                 if(message.email === currentUser.email){
@@ -87,8 +97,8 @@ function Main() {
                 }
             )
             }
-
             </>
+            <div ref={messageEndRef}></div>
             </MainContent>
             <Footer />
         </MainWrapper>

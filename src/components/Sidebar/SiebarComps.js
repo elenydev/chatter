@@ -108,6 +108,7 @@ flex-direction: column;
  & > p{
      font-size: 0.9rem;
      color: darkgray;
+     overflow: hidden;
  }
 
 `
