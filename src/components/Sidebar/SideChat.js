@@ -5,34 +5,34 @@ import db from '../../services/firebase'
 import {
   Link
 } from "react-router-dom";
-function SideChat() {
-    const [rooms, setRooms] = useState([]);
+function SideChat({ id, name }) {
+    
+    const [lastMessage, setLastMessage] = useState([]);
+    
 
-    useEffect(() =>{
-        const unsubscribeRooms = db.collection('rooms').onSnapshot(snapshot =>{
-            setRooms(snapshot.docs.map((doc) => ({
-                id: doc.id,
-                data: doc.data(),
-            })))
-
-        })
-
-        return () => unsubscribeRooms();
-    },[])
+    
+    useEffect(() => {
+        if(id){
+        db.collection('rooms').doc(id)
+        .collection('messages').orderBy('timestamp','desc')
+        .onSnapshot(snapshot => (
+        setLastMessage(snapshot.docs.map(doc => doc.data()))
+        ));
+        }
+    }
+    ,[id] )
 
     return (
         <>
-            {rooms.map(room => (
-                <Link key={room.id} to={`/rooms/${room.id}`}>
-                <ChatItem id={room.id}>
-                    <Avatar src={`https://avatars.dicebear.com/api/human/${room.id}.svg`}/>
+                <Link key={id} to={`/rooms/${id}`}>
+                <ChatItem id={id}>
+                    <Avatar src={`https://avatars.dicebear.com/api/human/${id}.svg`}/>
                     <ChatItemInfo>
-                        <h2>{room.data.name}</h2>
-                        <p>Message</p>
+                        <h2>{name}</h2>
+                        <p>{lastMessage[0] ? lastMessage[0].message : 'Empty room'}</p>
                     </ChatItemInfo>
                 </ChatItem>
-                </Link>
-            ))}  
+                </Link> 
         </>
     )
 }

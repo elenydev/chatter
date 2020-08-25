@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import { SidebarWrapper, SidebarHeader, SidebarHeaderIcons, SidebarSearch, SidebarSearchInput, SidebarChat, SidebarAddButton } from './SiebarComps'
 import { Avatar, IconButton } from '@material-ui/core';
 import DonutLargeIcon from '@material-ui/icons/DonutLarge';
@@ -11,6 +11,7 @@ import {selectUser} from '../../features/user/userSlice';
 import { useSelector } from 'react-redux'
 function Sidebar() {
 
+    const [rooms, setRooms] = useState([]);
     const currentUser = useSelector(selectUser);
     const createChat = () =>{
         const roomName = prompt('Please enter name of new chat room');
@@ -20,6 +21,17 @@ function Sidebar() {
             });
         }
     }
+    useEffect(() =>{
+        const unsubscribeRooms = db.collection('rooms').onSnapshot(snapshot =>{
+            setRooms(snapshot.docs.map((doc) => ({
+                id: doc.id,
+                data: doc.data(),
+            })))
+
+        })
+        return () => unsubscribeRooms();
+    },[])
+
     return (
         <SidebarWrapper>
             <SidebarHeader>
@@ -44,7 +56,9 @@ function Sidebar() {
             </SidebarSearch>
             <SidebarAddButton onClick={createChat}>Add</SidebarAddButton>
             <SidebarChat>
-                <SideChat />
+                {rooms.map( room =>(
+                    <SideChat key={room.id} id={room.id} name={room.data.name} />
+                ))}
             </SidebarChat>
         </SidebarWrapper>
     )

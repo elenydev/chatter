@@ -1,16 +1,14 @@
 import React, {useState, useEffect} from 'react'
-import {MainWrapper, MainHeader, MainHeaderInfo, MainHeaderIcons, MainContent, MainFooter, MainFooterInput, Message, MessageContent, OwnMessage } from './MainComps'
+import {MainWrapper, MainHeader, MainHeaderInfo, MainHeaderIcons, MainContent, Message, MessageContent, OwnMessage } from './MainComps'
 import { Avatar, IconButton } from '@material-ui/core';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import SearchIcon from '@material-ui/icons/Search';
 import AttachFileIcon from '@material-ui/icons/AttachFile';
-import InsertEmoticonIcon from '@material-ui/icons/InsertEmoticon';
-import SendIcon from '@material-ui/icons/Send';
 import db from '../../services/firebase'
 import {useSelector} from 'react-redux'
 import {useParams} from 'react-router-dom'
 import {selectUser} from '../../features/user/userSlice'
-import firebase from 'firebase'
+import Footer from './Footer'
 
 function Main() {
     const currentUser = useSelector(selectUser);
@@ -19,8 +17,7 @@ function Main() {
     const [messages, setMessages] = useState([]);
     const [randomChat, setRandomChat] = useState('')
     const [roomName, setRoomName] = useState('');
-    const [input, setInputValue] = useState('');
-    
+
     useEffect(() =>{
         if(roomId) {
             db.collection('rooms').doc(roomId)
@@ -33,7 +30,7 @@ function Main() {
             setMessages(snapshot.docs.map(doc => doc.data())
             )));
         }    
-          
+        
     }, [roomId])
 
     useEffect(() =>{
@@ -41,17 +38,8 @@ function Main() {
         setRandomChat(Math.floor(Math.random() * 3000 ))
     },[roomId])
 
-    const sendMsg = (e) => {
-        e.preventDefault();
-        db.collection('rooms').doc(roomId).collection('messages').add({
-            message: input,
-            author: currentUser.displayName,
-            email: currentUser.email,
-            timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-        });
-        setInputValue('');
-    }
 
+    
     return (
         <MainWrapper>
             <MainHeader>
@@ -72,40 +60,37 @@ function Main() {
                     </IconButton>
                 </MainHeaderIcons>
             </MainHeader>
-            <MainContent>
-            {messages.map(message => (
+            <MainContent id="scroll">
             <>
-            {message.email === currentUser.email ? 
-            <OwnMessage key={message.message}>
-                <MessageContent >
-                {message.message}
-                <span>{message.author}</span>
-                </MessageContent>
-                <Avatar src={`${currentUser.photo}`}/>
-            </OwnMessage>
-            : 
-            <>
-            <Message key={message.message}>
-                <Avatar src={`https://avatars.dicebear.com/api/human/${randomChat}.svg`}/>
-                <MessageContent >
-                    {message.message}
-                    <span>{message.author}</span>
-                </MessageContent>
-            </Message>
-            </>
+            {messages.map(message => {
+                if(message.email === currentUser.email){
+                    return( 
+                        <OwnMessage key={message.timestamp}>
+                            <MessageContent >
+                                {message.message}
+                                <span>{message.author}</span>
+                            </MessageContent>
+                            <Avatar src={`${currentUser.photo}`}/>
+                        </OwnMessage>)
+                    }
+                else{
+                    return(
+                    <Message key={message.timestamp}>
+                        <Avatar src={`https://avatars.dicebear.com/api/human/${randomChat}.svg`}/>
+                        <MessageContent >
+                            {message.message}
+                            <span>{message.author}</span>
+                        </MessageContent>
+                    </Message>
+                    )
+                    }
+                }
+            )
             }
+
             </>
-            ))}
             </MainContent>
-            <MainFooter onSubmit={sendMsg}>
-                <IconButton>
-                    <InsertEmoticonIcon />
-                </IconButton>
-                <MainFooterInput placeholder="Type a message.." value={input} onChange={(e) => setInputValue(e.target.value)}/>
-                <IconButton>
-                    <SendIcon onClick={sendMsg}/>
-                </IconButton>
-            </MainFooter>
+            <Footer />
         </MainWrapper>
     )
 }

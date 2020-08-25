@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-
+import ReactTextareaAutocomplete from '@webscopeio/react-textarea-autocomplete';
 const MainWrapper = styled.main`
 display: flex;
 flex: 0.65;
@@ -46,6 +46,7 @@ border-bottom: 1px solid darkgray;
 padding: 15px;
 justify-content: flex-start;
 flex-direction: column;
+overflow-y: auto;
 `
 const MainFooter = styled.form`
 display: flex;
@@ -55,13 +56,14 @@ align-items: center;
 justify-content: space-between;
 background-color: #F0F0F0;
 `
-const MainFooterInput = styled.input`
+const MainFooterInput = styled(ReactTextareaAutocomplete)`
 display: flex;
 flex: 1;
 margin: 0 5px;
 background-color: white;
-padding: 3px 10px;
+padding: 3px 5px;
 border: none;
+margin: 0;
 border-radius: 20px;
 outline: none;
  ::placeholder{
