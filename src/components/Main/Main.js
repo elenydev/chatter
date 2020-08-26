@@ -18,7 +18,7 @@ function Main() {
     const [randomChat, setRandomChat] = useState('')
     const [roomName, setRoomName] = useState('');
     const messageEndRef = useRef(null);
-
+    const [lastMessage, setLastMessage] = useState('')
     useEffect(() =>{
         if(roomId) {
             db.collection('rooms').doc(roomId)
@@ -28,8 +28,13 @@ function Main() {
             db.collection('rooms').doc(roomId)
             .collection('messages').orderBy('timestamp','asc')
             .onSnapshot(snapshot => (
-            setMessages(snapshot.docs.map(doc => doc.data())
+            setMessages(snapshot.docs.map(doc => doc.data()),
+
             )));
+            // db.collection('rooms').doc(roomId)
+            // .collection('messages').orderBy('timestamp', 'asc').onSnapshot(snapshot => (
+            //     setMessages(snapshot.docs.map(doc => doc.data())
+            // )));
             
         }    
         
@@ -56,7 +61,15 @@ function Main() {
                 <Avatar src={`https://avatars.dicebear.com/api/human/${random}.svg`} />
                 <MainHeaderInfo>
                     <h3>{roomName}</h3>
-                    <p>Last seen 1 week ago</p>
+                    <p>
+                        {
+                            messages[messages.length-1] ? 
+                            <span>{((messages[messages.length-1].timestamp).toDate()).toUTCString()}</span>
+                            :
+                            <span>Empty room</span>
+                        }    
+                    
+                    </p>
                 </MainHeaderInfo>
                 <MainHeaderIcons>
                     <IconButton >

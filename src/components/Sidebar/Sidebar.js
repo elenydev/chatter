@@ -13,6 +13,7 @@ function Sidebar() {
 
     const [rooms, setRooms] = useState([]);
     const currentUser = useSelector(selectUser);
+    const [search, setSearch] = useState('')
     const createChat = () =>{
         const roomName = prompt('Please enter name of new chat room');
         if(roomName) {
@@ -32,6 +33,25 @@ function Sidebar() {
         return () => unsubscribeRooms();
     },[])
 
+    const SearchFunction = () =>{
+        
+        if(search != ''){
+        rooms.filter(room =>{
+            if(room.data.name == search){
+                console.log('elo')
+                return room;
+            }
+            else{
+                console.log('bład')
+                console.log(search);
+            }
+        })
+    }
+    else{
+        return
+    }
+
+    }
     return (
         <SidebarWrapper>
             <SidebarHeader>
@@ -49,16 +69,18 @@ function Sidebar() {
                 </SidebarHeaderIcons>
             </SidebarHeader>
             <SidebarSearch>
-                <IconButton>
+                <IconButton onClick={SearchFunction}>
                     <SearchIcon />
                 </IconButton>
-                <SidebarSearchInput placeholder="Search for existing chat"/>
+                <SidebarSearchInput placeholder="Search for existing chat" onChange={e => setSearch(e.target.value)}/>
             </SidebarSearch>
             <SidebarAddButton onClick={createChat}>Add</SidebarAddButton>
             <SidebarChat>
-                {rooms.map( room =>(
+                { rooms.length >1 ? rooms.map( room =>(
                     <SideChat key={room.id} id={room.id} name={room.data.name} />
-                ))}
+                )) :
+                'There is no rooms yet'
+            }
             </SidebarChat>
         </SidebarWrapper>
     )
