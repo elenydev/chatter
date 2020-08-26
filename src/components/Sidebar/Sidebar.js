@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react'
+import React, {useEffect, useState, useRef} from 'react'
 import { SidebarWrapper, SidebarHeader, SidebarHeaderIcons, SidebarSearch, SidebarSearchInput, SidebarChat, SidebarAddButton } from './SiebarComps'
 import { Avatar, IconButton } from '@material-ui/core';
 import DonutLargeIcon from '@material-ui/icons/DonutLarge';
@@ -13,7 +13,8 @@ function Sidebar() {
 
     const [rooms, setRooms] = useState([]);
     const currentUser = useSelector(selectUser);
-    const [search, setSearch] = useState('')
+    const inputElement = useRef(null)
+    const [oldArr, setOldArr] = useState([])
     const createChat = () =>{
         const roomName = prompt('Please enter name of new chat room');
         if(roomName) {
@@ -28,29 +29,28 @@ function Sidebar() {
                 id: doc.id,
                 data: doc.data(),
             })))
+            setOldArr(snapshot.docs.map((doc) => ({
+                id: doc.id,
+                data: doc.data(),
+            })))
 
         })
         return () => unsubscribeRooms();
     },[])
 
     const SearchFunction = () =>{
+        let value = inputElement.current.value
         
-        if(search != ''){
-        rooms.filter(room =>{
-            if(room.data.name == search){
-                console.log('elo')
-                return room;
-            }
-            else{
-                console.log('bład')
-                console.log(search);
-            }
-        })
-    }
-    else{
-        return
-    }
-
+        if(rooms.filter(room => (room.data.name).toLowerCase() === (value).toLowerCase())){
+        const filtered = rooms.filter(room => (room.data.name).toLowerCase() === (value).toLowerCase());
+        if(filtered.length > 0 ) setRooms(filtered);
+        else setRooms(oldArr)
+        }
+        else{
+            return null
+        }
+        
+    
     }
     return (
         <SidebarWrapper>
@@ -72,11 +72,11 @@ function Sidebar() {
                 <IconButton onClick={SearchFunction}>
                     <SearchIcon />
                 </IconButton>
-                <SidebarSearchInput placeholder="Search for existing chat" onChange={e => setSearch(e.target.value)}/>
+                <SidebarSearchInput placeholder="Search for existing chat" ref={inputElement} onChange={SearchFunction}/>
             </SidebarSearch>
             <SidebarAddButton onClick={createChat}>Add</SidebarAddButton>
             <SidebarChat>
-                { rooms.length >1 ? rooms.map( room =>(
+                { rooms.length >=1 ? rooms.map( room =>(
                     <SideChat key={room.id} id={room.id} name={room.data.name} />
                 )) :
                 'There is no rooms yet'

@@ -18,7 +18,7 @@ function Main() {
     const [randomChat, setRandomChat] = useState('')
     const [roomName, setRoomName] = useState('');
     const messageEndRef = useRef(null);
-    const [lastMessage, setLastMessage] = useState('')
+
     useEffect(() =>{
         if(roomId) {
             db.collection('rooms').doc(roomId)
@@ -31,10 +31,6 @@ function Main() {
             setMessages(snapshot.docs.map(doc => doc.data()),
 
             )));
-            // db.collection('rooms').doc(roomId)
-            // .collection('messages').orderBy('timestamp', 'asc').onSnapshot(snapshot => (
-            //     setMessages(snapshot.docs.map(doc => doc.data())
-            // )));
             
         }    
         
