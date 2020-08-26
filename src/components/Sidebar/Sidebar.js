@@ -7,14 +7,19 @@ import MoreVertIcon from '@material-ui/icons/MoreVert';
 import SearchIcon from '@material-ui/icons/Search';
 import SideChat from './SideChat'
 import db from '../../services/firebase'
-import {selectUser} from '../../features/user/userSlice';
-import { useSelector } from 'react-redux'
-function Sidebar() {
+import {selectUser, logout} from '../../features/user/userSlice';
+import { useSelector, useDispatch } from 'react-redux'
+import { useConfirm } from 'material-ui-confirm';
 
+function Sidebar() {
+    const confirm = useConfirm()
     const [rooms, setRooms] = useState([]);
     const currentUser = useSelector(selectUser);
     const inputElement = useRef(null)
     const [oldArr, setOldArr] = useState([])
+    const roomStart = useRef(null)
+    const dispatch = useDispatch();
+
     const createChat = () =>{
         const roomName = prompt('Please enter name of new chat room');
         if(roomName) {
@@ -37,19 +42,32 @@ function Sidebar() {
         })
         return () => unsubscribeRooms();
     },[])
+    const scrollToBottom = () => {
+        if(roomStart){
+        roomStart.current.scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
+        }
+        else return
+     }
+    useEffect(scrollToBottom, [rooms]);
+
+    const logOut = () =>{
+        confirm({description: 'You want to log out?'})
+        .then(() => dispatch(logout()))
+        .catch(() => null)
+    }
+    
 
     const SearchFunction = () =>{
         let value = inputElement.current.value
         
         if(rooms.filter(room => (room.data.name).toLowerCase() === (value).toLowerCase())){
         const filtered = rooms.filter(room => (room.data.name).toLowerCase() === (value).toLowerCase());
-        if(filtered.length > 0 ) setRooms(filtered);
-        else setRooms(oldArr)
+            if(filtered.length > 0 ) setRooms(filtered);
+            else setRooms(oldArr)
         }
         else{
             return null
         }
-        
     
     }
     return (
@@ -60,10 +78,10 @@ function Sidebar() {
                     <IconButton >
                         <DonutLargeIcon />
                     </IconButton>
-                    <IconButton>
+                    <IconButton onClick={createChat}>
                         <MessageIcon />
                     </IconButton>
-                    <IconButton>
+                    <IconButton onClick={logOut}>
                         <MoreVertIcon />
                     </IconButton>
                 </SidebarHeaderIcons>
@@ -76,6 +94,7 @@ function Sidebar() {
             </SidebarSearch>
             <SidebarAddButton onClick={createChat}>Add</SidebarAddButton>
             <SidebarChat>
+                <div ref={roomStart}></div>
                 { rooms.length >=1 ? rooms.map( room =>(
                     <SideChat key={room.id} id={room.id} name={room.data.name} />
                 )) :

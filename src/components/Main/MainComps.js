@@ -6,6 +6,10 @@ flex: 0.65;
 height: 100%;
 background-color: white;
 flex-direction: column;
+
+    @media (max-width: 1000px){
+        flex: 1;
+    }
 `
 const MainHeader = styled.div`
 display: flex;
@@ -15,6 +19,9 @@ align-items: center;
 height: 10vh;
 justify-content: space-between;
 padding: 15px;
+    @media (max-width: 1000px){
+        height: 20vh;
+    }
 `
 const MainHeaderInfo = styled.div`
 display: flex;
@@ -22,7 +29,8 @@ flex-direction: column;
 margin-left: 10px;
 flex: 1;
     & > p{
-        color: darkgray
+        color: darkgray;
+        font-size: 0.8rem;
         }
 `
 const MainHeaderIcons = styled.div`
@@ -55,6 +63,10 @@ padding: 15px;
 align-items: center;
 justify-content: space-between;
 background-color: #F0F0F0;
+@media(max-width: 1000px){
+     padding: 20px 0;
+     height: 8vh
+ }
 `
 const MainFooterInput = styled(ReactTextareaAutocomplete)`
 display: flex;
@@ -69,6 +81,7 @@ outline: none;
  ::placeholder{
     color: lightgray;
  }
+ 
 `
 const Message = styled.div`
 display: flex;

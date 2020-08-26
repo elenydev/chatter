@@ -9,6 +9,11 @@ padding: 15px;
 background-color: white;
 flex-direction: column;
 border-right: 1px solid #E0E0E0;
+@media (max-width: 1000px){
+        flex: 1;
+        margin-bottom: 20px;
+        border-bottom: 1px solid #E0E0E0;
+    }
 `
 
 const SidebarHeader = styled.div`
@@ -83,7 +88,7 @@ const SidebarChat = styled.div`
 display: flex;
 flex-direction: column;
 align-items: center;
-justify-content: center;
+overflow-y: auto;
 
 `
 const ChatItem = styled.div`
@@ -109,6 +114,11 @@ flex-direction: column;
      font-size: 0.9rem;
      color: darkgray;
      overflow: hidden;
+ }
+ @media(max-width: 1000px){
+     & > h2{
+         font-size: 1rem;
+     }
  }
 
 `

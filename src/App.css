@@ -7,15 +7,22 @@
 .App {
   display: grid;
   place-items: center;
-  background-color: #F0F0F0;
-  height: 100vh
+  min-height: 100vh;
+
 }
 
 .App__wrapper {
   display: flex;
   background-color: #ededed;
   height: 90vh;
-  width: 700px;
+  width: 800px;
   max-width: 90vw;
   box-shadow: -1px 4px 20px -6px rgba(0, 0, 0, 0.5);
+
+}
+
+@media (max-width: 1000px) {
+  .App__wrapper {
+    flex-direction: column;
+  }
 }

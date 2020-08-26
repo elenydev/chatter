@@ -5,11 +5,11 @@ import MoreVertIcon from '@material-ui/icons/MoreVert';
 import SearchIcon from '@material-ui/icons/Search';
 import AttachFileIcon from '@material-ui/icons/AttachFile';
 import db from '../../services/firebase'
-import {useSelector} from 'react-redux'
-import {useParams} from 'react-router-dom'
-import {selectUser} from '../../features/user/userSlice'
+import {useSelector, useDispatch} from 'react-redux'
+import {useParams, } from 'react-router-dom'
+import {selectUser, logout } from '../../features/user/userSlice'
 import Footer from './Footer'
-
+import { useConfirm } from 'material-ui-confirm';
 function Main() {
     const currentUser = useSelector(selectUser);
     const [random, setRandom] = useState('');
@@ -18,7 +18,8 @@ function Main() {
     const [randomChat, setRandomChat] = useState('')
     const [roomName, setRoomName] = useState('');
     const messageEndRef = useRef(null);
-
+    const dispatch = useDispatch();
+    const confirm = useConfirm();
     useEffect(() =>{
         if(roomId) {
             db.collection('rooms').doc(roomId)
@@ -36,7 +37,11 @@ function Main() {
         
     }, [roomId])
 
-
+    const logOut = () =>{
+        confirm({description: 'You want to log out?'})
+        .then(() => dispatch(logout()))
+        .catch(() => null)
+    }
     useEffect(() =>{
         setRandom(Math.floor(Math.random() * 3000 ));
         setRandomChat(Math.floor(Math.random() * 3000 ))
@@ -74,7 +79,7 @@ function Main() {
                     <IconButton>
                         <AttachFileIcon/>
                     </IconButton>
-                    <IconButton>
+                    <IconButton onClick={logOut}>
                         <MoreVertIcon />
                     </IconButton>
                 </MainHeaderIcons>
