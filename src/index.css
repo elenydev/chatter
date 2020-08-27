@@ -66,3 +66,9 @@ textarea.message-input {
   overflow-y: scroll;
   margin-left: 5px;
 }
+
+.centerEmoji {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

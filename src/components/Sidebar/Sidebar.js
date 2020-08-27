@@ -1,8 +1,8 @@
 import React, {useEffect, useState, useRef} from 'react'
 import { SidebarWrapper, SidebarHeader, SidebarHeaderIcons, SidebarSearch, SidebarSearchInput, SidebarChat, SidebarAddButton } from './SiebarComps'
 import { Avatar, IconButton } from '@material-ui/core';
-import MessageIcon from '@material-ui/icons/Message';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
+import AddCircleOutlineTwoToneIcon from '@material-ui/icons/AddCircleOutlineTwoTone';
+import ExitToAppTwoToneIcon from '@material-ui/icons/ExitToAppTwoTone';
 import SearchIcon from '@material-ui/icons/Search';
 import SideChat from './SideChat'
 import db from '../../services/firebase'
@@ -75,10 +75,10 @@ function Sidebar() {
                 <Avatar src={`${currentUser.photo}`}/>
                 <SidebarHeaderIcons>
                     <IconButton onClick={createChat}>
-                        <MessageIcon />
+                        <AddCircleOutlineTwoToneIcon />
                     </IconButton>
                     <IconButton onClick={logOut}>
-                        <MoreVertIcon />
+                        <ExitToAppTwoToneIcon />
                     </IconButton>
                 </SidebarHeaderIcons>
             </SidebarHeader>

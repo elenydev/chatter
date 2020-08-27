@@ -55,6 +55,7 @@ function Footer() {
         <MainFooter onSubmit={sendMsg}>
             <button
             type="button"
+            className="centerEmoji"
             onClick={toggleEmojiPicker}
             >
                 <MoodIcon />

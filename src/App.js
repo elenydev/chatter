@@ -17,7 +17,11 @@ function App() {
   return (
     <ConfirmProvider>
     <div className="App">
-      {!currentUser ? ( <Login /> ) 
+      {!currentUser ? ( 
+      <div className="App__wrapper">
+        <Login />
+      </div>
+       ) 
       : (
         <div className="App__wrapper">
           <Router>

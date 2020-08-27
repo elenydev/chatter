@@ -114,6 +114,9 @@ flex-direction: column;
      font-size: 0.9rem;
      color: darkgray;
      overflow: hidden;
+     max-height: 5vh;
+     display: inline-block;
+     word-break: break-word;
  }
  @media(max-width: 1000px){
      & > h2{

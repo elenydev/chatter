@@ -1,7 +1,7 @@
 import React, {useState, useEffect, useRef} from 'react'
 import {MainWrapper, MainHeader, MainHeaderInfo, MainHeaderIcons, MainContent, Message, MessageContent, OwnMessage } from './MainComps'
 import { Avatar, IconButton } from '@material-ui/core';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
+import ExitToAppTwoToneIcon from '@material-ui/icons/ExitToAppTwoTone';
 import SearchIcon from '@material-ui/icons/Search';
 import AttachFileIcon from '@material-ui/icons/AttachFile';
 import db from '../../services/firebase'
@@ -85,7 +85,7 @@ function Main() {
                         <AttachFileIcon/>
                     </IconButton>
                     <IconButton onClick={logOut}>
-                        <MoreVertIcon />
+                        <ExitToAppTwoToneIcon />
                     </IconButton>
                 </MainHeaderIcons>
             </MainHeader>

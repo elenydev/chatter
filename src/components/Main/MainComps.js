@@ -55,6 +55,9 @@ padding: 15px;
 justify-content: flex-start;
 flex-direction: column;
 overflow-y: auto;
+    @media(max-width: 800px){
+        min-height: 30vh;
+    }
 `
 const MainFooter = styled.form`
 display: flex;
@@ -90,6 +93,13 @@ width: 100%;
 align-items: center;
 height: fit-content;
 margin-bottom: 15px;
+
+ p{
+    padding: 5px 10px;
+    line-height: 1.5;
+    display: inline-block;
+    word-break: break-word;
+ }
 `
 
 const MessageContent = styled.p`
@@ -124,8 +134,14 @@ margin-bottom: 15px;
 align-items: center;
 height: fit-content;
   p{
-      background-color: #4285F4;
+      background-color: white;
+      color: black;
+      font-weight: 500;
+      line-height: 1.5;
       margin-right: 5px;
+      padding: 5px 10px;
+      display: inline-block;
+      word-break: break-word;
   }
   span{
       display: none;
