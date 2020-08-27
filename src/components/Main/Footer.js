@@ -46,11 +46,12 @@ function Footer() {
         setInputValue(text);
         toggleEmojiPicker();
       }
+
     return (
         <>  
-                {showEmojiPicker ? (
-                  <Picker set="google" onSelect={addEmoji} />
-                ) : null} 
+        {showEmojiPicker ? (
+        <Picker set="google" onSelect={addEmoji} />
+        ) : null} 
         <MainFooter onSubmit={sendMsg}>
             <button
             type="button"

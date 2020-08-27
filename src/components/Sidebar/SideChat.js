@@ -13,12 +13,16 @@ function SideChat({ id, name }) {
     
     useEffect(() => {
         if(id){
-        db.collection('rooms').doc(id)
+        const unsubscribe =  db.collection('rooms').doc(id)
         .collection('messages').orderBy('timestamp','desc')
         .onSnapshot(snapshot => (
         setLastMessage(snapshot.docs.map(doc => doc.data()))
         ));
+
+        return () => unsubscribe();
         }
+        
+        
     }
     ,[id] )
 

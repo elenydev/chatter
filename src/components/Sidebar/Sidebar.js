@@ -1,7 +1,6 @@
 import React, {useEffect, useState, useRef} from 'react'
 import { SidebarWrapper, SidebarHeader, SidebarHeaderIcons, SidebarSearch, SidebarSearchInput, SidebarChat, SidebarAddButton } from './SiebarComps'
 import { Avatar, IconButton } from '@material-ui/core';
-import DonutLargeIcon from '@material-ui/icons/DonutLarge';
 import MessageIcon from '@material-ui/icons/Message';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import SearchIcon from '@material-ui/icons/Search';
@@ -75,9 +74,6 @@ function Sidebar() {
             <SidebarHeader>
                 <Avatar src={`${currentUser.photo}`}/>
                 <SidebarHeaderIcons>
-                    <IconButton >
-                        <DonutLargeIcon />
-                    </IconButton>
                     <IconButton onClick={createChat}>
                         <MessageIcon />
                     </IconButton>

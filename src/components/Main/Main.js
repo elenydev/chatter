@@ -20,22 +20,26 @@ function Main() {
     const messageEndRef = useRef(null);
     const dispatch = useDispatch();
     const confirm = useConfirm();
+
     useEffect(() =>{
         if(roomId) {
-            db.collection('rooms').doc(roomId)
+            const sub1 = db.collection('rooms').doc(roomId)
             .onSnapshot(snapshot => (
             setRoomName(snapshot.data().name)));
-
-            db.collection('rooms').doc(roomId)
-            .collection('messages').orderBy('timestamp','asc')
-            .onSnapshot(snapshot => (
-            setMessages(snapshot.docs.map(doc => doc.data()),
-
-            )));
-            
+            return () => sub1();
         }    
         
-    }, [roomId])
+    }, [roomId]);
+
+    useEffect(() =>{
+        const sub2 = db.collection('rooms').doc(roomId)
+        .collection('messages').orderBy('timestamp','asc')
+        .onSnapshot(snapshot => (
+        setMessages(snapshot.docs.map(doc => doc.data())
+        )));
+        return () => sub2();
+
+    }, [roomId]);
 
     const logOut = () =>{
         confirm({description: 'You want to log out?'})
@@ -64,19 +68,20 @@ function Main() {
                     <h3>{roomName}</h3>
                     <p>
                         {
-                            messages[messages.length-1] ? 
-                            <span>{((messages[messages.length-1].timestamp).toDate()).toUTCString()}</span>
+                            (messages[messages.length-1]) ?
+                        <span>{new Date(messages[messages.length-1]?.timestamp?.toDate()).toUTCString()}</span>
                             :
                             <span>Empty room</span>
                         }    
-                    
+
                     </p>
                 </MainHeaderInfo>
                 <MainHeaderIcons>
                     <IconButton >
                         <SearchIcon />
                     </IconButton>
-                    <IconButton>
+                    <input type="file" id="sampleFile" style={{display:'none'}} />
+                    <IconButton htmlFor="sampleFile" component="label">
                         <AttachFileIcon/>
                     </IconButton>
                     <IconButton onClick={logOut}>
