@@ -93,7 +93,9 @@ width: 100%;
 align-items: center;
 height: fit-content;
 margin-bottom: 15px;
-
+ a{
+    text-decoration: underline!important;
+  }
  p{
     padding: 5px 10px;
     line-height: 1.5;
@@ -133,6 +135,9 @@ width: 100%;
 margin-bottom: 15px;
 align-items: center;
 height: fit-content;
+  a{
+      text-decoration: underline!important;
+  }
   p{
       background-color: white;
       color: black;

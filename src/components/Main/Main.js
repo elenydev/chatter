@@ -10,6 +10,7 @@ import {useParams, } from 'react-router-dom'
 import {selectUser, logout } from '../../features/user/userSlice'
 import Footer from './Footer'
 import { useConfirm } from 'material-ui-confirm';
+import {https, http} from '../../Helpers/Links'
 function Main() {
     const currentUser = useSelector(selectUser);
     const [random, setRandom] = useState('');
@@ -82,6 +83,15 @@ function Main() {
             return null, setMessages(messagesCopy), alert('Message not found')
         }
     }
+    const handleLinks = (message) =>{
+        if(message.includes(https) || message.includes(http)){
+             return true
+        }
+        else{
+            return false
+        }
+    }
+
     return (
         <MainWrapper>
             <MainHeader>
@@ -118,7 +128,7 @@ function Main() {
                     return( 
                         <OwnMessage key={message.timestamp}>
                             <MessageContent >
-                                {message.message}
+                                {handleLinks(message.message) ? <a href={message.message} target="_blank" rel="noopener noreferrer">{message.message}</a> : message.message}
                                 <span>{message.author}</span>
                             </MessageContent>
                             <Avatar src={`${currentUser.photo}`}/>
@@ -129,7 +139,7 @@ function Main() {
                     <Message key={message.timestamp}>
                         <Avatar src={`https://avatars.dicebear.com/api/human/${randomChat}.svg`}/>
                         <MessageContent >
-                            {message.message}
+                        {handleLinks(message.message) ? <a href={message.message} target="_blank" rel="noopener noreferrer">{message.message}</a> : message.message}
                             <span>{message.author}</span>
                         </MessageContent>
                     </Message>
