@@ -36,8 +36,9 @@ function Main() {
         const sub2 = db.collection('rooms').doc(roomId)
         .collection('messages').orderBy('timestamp','asc')
         .onSnapshot(snapshot => (
-        setMessages(snapshot.docs.map(doc => doc.data())
-        )));
+        setMessages(snapshot.docs.map(doc => doc.data())),
+        setMessagesCopy(snapshot.docs.map(doc => doc.data()))
+        ));
         return () => sub2();
 
     }, [roomId]);
