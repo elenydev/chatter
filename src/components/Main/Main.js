@@ -15,6 +15,7 @@ function Main() {
     const [random, setRandom] = useState('');
     const { roomId } = useParams();
     const [messages, setMessages] = useState([]);
+    const [messagesCopy, setMessagesCopy] = useState([])
     const [randomChat, setRandomChat] = useState('')
     const [roomName, setRoomName] = useState('');
     const messageEndRef = useRef(null);
@@ -59,7 +60,27 @@ function Main() {
         else return
      }
     useEffect(scrollToBottom, [messages]);
-    
+    const searchMessage = () =>{
+        let message = prompt('Look for message...');
+       
+        if(message){
+            message = message.toLowerCase();
+            if(messages.filter(msg => (msg.message).toLowerCase() === message)){
+                const filtered = messages.filter(msg => (msg.message).toLowerCase() === message);
+                    if(filtered.length > 0 ) setMessages(filtered);
+                    else {
+                        alert('Message not found')
+                        setMessages(messagesCopy)
+                    }
+                }
+            else{
+                return null, setMessages(messagesCopy)
+            }
+        }
+        else{
+            return null, setMessages(messagesCopy), alert('Message not found')
+        }
+    }
     return (
         <MainWrapper>
             <MainHeader>
@@ -77,7 +98,7 @@ function Main() {
                     </p>
                 </MainHeaderInfo>
                 <MainHeaderIcons>
-                    <IconButton >
+                    <IconButton onClick={searchMessage}>
                         <SearchIcon />
                     </IconButton>
                     <input type="file" id="sampleFile" style={{display:'none'}} />
