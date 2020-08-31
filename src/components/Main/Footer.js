@@ -4,14 +4,14 @@ import SendIcon from '@material-ui/icons/Send';
 import {useSelector} from 'react-redux'
 import {selectUser} from '../../features/user/userSlice'
 import firebase from 'firebase'
-import db from '../../services/firebase'
+import db, {storage} from '../../services/firebase'
 import { IconButton } from '@material-ui/core';
 import {useParams} from 'react-router-dom'
 import 'emoji-mart/css/emoji-mart.css'
 import { Picker, emojiIndex } from 'emoji-mart';
 import MoodIcon from '@material-ui/icons/Mood';
 import '../../index.css'
-
+import AttachFileIcon from '@material-ui/icons/AttachFile';
 
 
 function Footer() {
@@ -19,6 +19,7 @@ function Footer() {
     const [input, setInputValue] = useState('');
     const { roomId } = useParams();
     const [showEmojiPicker, setShowEmojiPicker] = useState(false)
+    const [fileUrl, setFileUrl] = useState('');
 
     function toggleEmojiPicker() {
         setShowEmojiPicker(!showEmojiPicker)
@@ -29,6 +30,12 @@ function Footer() {
           sendMsg(e);
         }
     }
+    const fileChange = async (e) =>{
+      const file = e.target.files[0];
+      const fileRef = storage.child(file.name);
+      await fileRef.put(file)
+      setFileUrl(await fileRef.getDownloadURL())
+    }
 
     const sendMsg = (e) => {
         e.preventDefault();
@@ -37,8 +44,10 @@ function Footer() {
             author: currentUser.displayName,
             email: currentUser.email,
             timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+            photo: fileUrl
         });
         setInputValue('');
+        setFileUrl('');
     }
     function addEmoji(emoji) {
         
@@ -67,7 +76,7 @@ function Footer() {
                     loadingComponent={() => <span>Loading</span>}
                     onKeyPress={handleKeyPress}
                     onChange={(e) => setInputValue(e.target.value)}
-                    placeholder="Please enter message "
+                    placeholder={fileUrl ? 'Photo added ' : 'Insert Message'}
                     trigger={{
                       ':': {
                         dataProvider: token =>
@@ -82,6 +91,10 @@ function Footer() {
                       },
                     }}
                   />
+            <input type="file" id="sampleFile" style={{display:'none'}} onChange={fileChange} />
+            <IconButton htmlFor="sampleFile" component="label">
+              <AttachFileIcon/>
+            </IconButton>
             <IconButton onClick={sendMsg}>
                 <SendIcon />
             </IconButton>

@@ -11,6 +11,8 @@ import {
 } from "react-router-dom";
 import { selectUser } from './features/user/userSlice';
 import { ConfirmProvider } from 'material-ui-confirm';
+import SimpleReactLightbox from "simple-react-lightbox";
+
 function App() {
   const currentUser = useSelector(selectUser);
 
@@ -28,7 +30,9 @@ function App() {
             <Sidebar/>
               <Switch>
                   <Route path="/rooms/:roomId">
-                    <Main/>
+                      <SimpleReactLightbox>
+                        <Main/>
+                      </SimpleReactLightbox>
                   </Route>
                   <Route path="/rooms">
                     <Main />

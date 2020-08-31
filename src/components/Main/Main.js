@@ -3,7 +3,6 @@ import {MainWrapper, MainHeader, MainHeaderInfo, MainHeaderIcons, MainContent, M
 import { Avatar, IconButton } from '@material-ui/core';
 import ExitToAppTwoToneIcon from '@material-ui/icons/ExitToAppTwoTone';
 import SearchIcon from '@material-ui/icons/Search';
-import AttachFileIcon from '@material-ui/icons/AttachFile';
 import db from '../../services/firebase'
 import {useSelector, useDispatch} from 'react-redux'
 import {useParams, } from 'react-router-dom'
@@ -11,6 +10,8 @@ import {selectUser, logout } from '../../features/user/userSlice'
 import Footer from './Footer'
 import { useConfirm } from 'material-ui-confirm';
 import {https, http} from '../../Helpers/Links'
+import { SRLWrapper } from "simple-react-lightbox";
+
 function Main() {
     const currentUser = useSelector(selectUser);
     const [random, setRandom] = useState('');
@@ -34,6 +35,7 @@ function Main() {
     }, [roomId]);
 
     useEffect(() =>{
+        if(roomId){
         const sub2 = db.collection('rooms').doc(roomId)
         .collection('messages').orderBy('timestamp','asc')
         .onSnapshot(snapshot => (
@@ -41,6 +43,10 @@ function Main() {
         setMessagesCopy(snapshot.docs.map(doc => doc.data()))
         ));
         return () => sub2();
+        }
+        else{
+            return
+        }
 
     }, [roomId]);
 
@@ -112,10 +118,7 @@ function Main() {
                     <IconButton onClick={searchMessage}>
                         <SearchIcon />
                     </IconButton>
-                    <input type="file" id="sampleFile" style={{display:'none'}} />
-                    <IconButton htmlFor="sampleFile" component="label">
-                        <AttachFileIcon/>
-                    </IconButton>
+                    
                     <IconButton onClick={logOut}>
                         <ExitToAppTwoToneIcon />
                     </IconButton>
@@ -129,6 +132,13 @@ function Main() {
                         <OwnMessage key={message.timestamp}>
                             <MessageContent >
                                 {handleLinks(message.message) ? <a href={message.message} target="_blank" rel="noopener noreferrer">{message.message}</a> : message.message}
+                                {message.photo ? 
+                                <SRLWrapper>
+                                    <a href={message.photo} data-attribute="SRL">
+                                        <img src={message.photo} alt="Message" width="150px" height="150px" />
+                                    </a>
+                                </SRLWrapper>
+                                : null}
                                 <span>{message.author}</span>
                             </MessageContent>
                             <Avatar src={`${currentUser.photo}`}/>
@@ -139,7 +149,14 @@ function Main() {
                     <Message key={message.timestamp}>
                         <Avatar src={`https://avatars.dicebear.com/api/human/${randomChat}.svg`}/>
                         <MessageContent >
-                        {handleLinks(message.message) ? <a href={message.message} target="_blank" rel="noopener noreferrer">{message.message}</a> : message.message}
+                            {handleLinks(message.message) ? <a href={message.message} target="_blank" rel="noopener noreferrer">{message.message}</a> : message.message}
+                            {message.photo ? 
+                                <SRLWrapper>
+                                    <a href={message.photo} data-attribute="SRL">
+                                         <img src={message.photo} alt="Message" width="150px" height="150px" />
+                                    </a>
+                                </SRLWrapper>
+                            : null}
                             <span>{message.author}</span>
                         </MessageContent>
                     </Message>
