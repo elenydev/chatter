@@ -19,6 +19,7 @@ align-items: center;
 height: 10vh;
 justify-content: space-between;
 padding: 15px;
+position: relative;
     @media (max-width: 1000px){
         height: 20vh;
     }
@@ -38,13 +39,28 @@ display: flex;
 justify-content: space-between;
 align-items: center;
         .MuiSvgIcon-root {
-            font-size: 1.2rem !important;
+            font-size: 1.5rem !important;
             color: #D3D3D3;
             transition: 0.2s ease-in;
             :hover{
                 color: black;
             }
         }
+`
+const MainContentInput = styled.input`
+width: 100%;
+padding: 4px 8px;
+position: absolute;
+bottom: 0;
+opacity: 0;
+left: 0;
+z-index: 5;
+outline: none;
+background-color: white;
+border: 1px solid black;
+transition: all 0.3s ease-in;
+pointer-events: none;
+
 `
 const MainContent = styled.div`
 display: flex;
@@ -152,4 +168,4 @@ height: fit-content;
       display: none;
   }
 `
-export { MainWrapper, MainHeader, MainHeaderInfo, MainHeaderIcons, MainContent, MainFooter, MainFooterInput, MessageContent, Message, OwnMessage }
+export { MainWrapper, MainHeader, MainHeaderInfo, MainHeaderIcons, MainContent, MainFooter, MainFooterInput, MessageContent, Message, OwnMessage, MainContentInput }

@@ -1,14 +1,13 @@
 import React, {useState, useEffect, useRef} from 'react'
-import {MainWrapper, MainHeader, MainHeaderInfo, MainHeaderIcons, MainContent, Message, MessageContent, OwnMessage } from './MainComps'
+import {MainWrapper, MainHeader, MainHeaderInfo, MainHeaderIcons, MainContent, Message, MessageContent, OwnMessage, MainContentInput } from './MainComps'
 import { Avatar, IconButton } from '@material-ui/core';
-import ExitToAppTwoToneIcon from '@material-ui/icons/ExitToAppTwoTone';
 import SearchIcon from '@material-ui/icons/Search';
 import db from '../../services/firebase'
-import {useSelector, useDispatch} from 'react-redux'
+import {useSelector} from 'react-redux'
 import {useParams, } from 'react-router-dom'
-import {selectUser, logout } from '../../features/user/userSlice'
+import {selectUser } from '../../features/user/userSlice'
 import Footer from './Footer'
-import { useConfirm } from 'material-ui-confirm';
+import '../../index.css'
 import {https, http} from '../../Helpers/Links'
 import { SRLWrapper } from "simple-react-lightbox";
 
@@ -21,8 +20,9 @@ function Main() {
     const [randomChat, setRandomChat] = useState('')
     const [roomName, setRoomName] = useState('');
     const messageEndRef = useRef(null);
-    const dispatch = useDispatch();
-    const confirm = useConfirm();
+    const searchMessage = useRef(null)
+
+    const searchInput = document.querySelector('#searchInput')
 
     useEffect(() =>{
         if(roomId) {
@@ -50,11 +50,7 @@ function Main() {
 
     }, [roomId]);
 
-    const logOut = () =>{
-        confirm({description: 'You want to log out?'})
-        .then(() => dispatch(logout()))
-        .catch(() => null)
-    }
+
     useEffect(() =>{
         setRandom(Math.floor(Math.random() * 3000 ));
         setRandomChat(Math.floor(Math.random() * 3000 ))
@@ -68,27 +64,34 @@ function Main() {
         else return
      }
     useEffect(scrollToBottom, [messages]);
-    const searchMessage = () =>{
-        let message = prompt('Look for message...');
-       
-        if(message){
-            message = message.toLowerCase();
-            if(messages.filter(msg => (msg.message).toLowerCase() === message)){
-                const filtered = messages.filter(msg => (msg.message).toLowerCase() === message);
-                    if(filtered.length > 0 ) setMessages(filtered);
-                    else {
-                        alert('Message not found')
-                        setMessages(messagesCopy)
+
+    const handleSearch = (e) =>{
+        let message = (searchMessage.current.value).toLowerCase();
+        console.log(message)
+        if(e.key === "Enter"){
+            if(message){
+                if(messages.filter(msg => (msg.message).toLowerCase() === message)){
+                    const filtered = messages.filter(msg => (msg.message).toLowerCase() === message);
+                        if(filtered.length > 0 ){
+                            return setMessages(filtered), searchMessage.current.value = '', searchInput.classList.remove('active')
+                            
+                        }
+                        else {
+                            alert('Message not found')
+                            setMessages(messagesCopy)
+                            searchInput.classList.remove('active')
+                        }
                     }
+                else{
+                    return null, setMessages(messagesCopy),searchInput.classList.remove('active')
                 }
-            else{
-                return null, setMessages(messagesCopy)
             }
-        }
-        else{
-            return null, setMessages(messagesCopy), alert('Message not found')
-        }
+            else{
+                return null, setMessages(messagesCopy), alert('Message not found'), searchInput.classList.remove('active') 
+            }
     }
+    }
+
     const handleLinks = (message) =>{
         if(message.includes(https) || message.includes(http)){
              return true
@@ -115,14 +118,11 @@ function Main() {
                     </p>
                 </MainHeaderInfo>
                 <MainHeaderIcons>
-                    <IconButton onClick={searchMessage}>
+                    <IconButton onClick={() => searchInput.classList.toggle('active')}>
                         <SearchIcon />
                     </IconButton>
-                    
-                    <IconButton onClick={logOut}>
-                        <ExitToAppTwoToneIcon />
-                    </IconButton>
                 </MainHeaderIcons>
+                <MainContentInput type="text" id="searchInput" placeholder="Search..." ref={searchMessage} onKeyPress={handleSearch}/>
             </MainHeader>
             <MainContent >
             <>
@@ -130,17 +130,17 @@ function Main() {
                 if(message.email === currentUser.email){
                     return( 
                         <OwnMessage key={message.timestamp}>
+                            <SRLWrapper>
                             <MessageContent >
                                 {handleLinks(message.message) ? <a href={message.message} target="_blank" rel="noopener noreferrer">{message.message}</a> : message.message}
                                 {message.photo ? 
-                                <SRLWrapper>
                                     <a href={message.photo} data-attribute="SRL">
                                         <img src={message.photo} alt="Message" width="150px" height="150px" />
                                     </a>
-                                </SRLWrapper>
                                 : null}
                                 <span>{message.author}</span>
                             </MessageContent>
+                            </SRLWrapper>
                             <Avatar src={`${currentUser.photo}`}/>
                         </OwnMessage>)
                     }
@@ -148,17 +148,17 @@ function Main() {
                     return(
                     <Message key={message.timestamp}>
                         <Avatar src={`https://avatars.dicebear.com/api/human/${randomChat}.svg`}/>
+                        <SRLWrapper>
                         <MessageContent >
                             {handleLinks(message.message) ? <a href={message.message} target="_blank" rel="noopener noreferrer">{message.message}</a> : message.message}
                             {message.photo ? 
-                                <SRLWrapper>
                                     <a href={message.photo} data-attribute="SRL">
                                          <img src={message.photo} alt="Message" width="150px" height="150px" />
                                     </a>
-                                </SRLWrapper>
                             : null}
                             <span>{message.author}</span>
                         </MessageContent>
+                        </SRLWrapper>
                     </Message>
                     )
                     }

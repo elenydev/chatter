@@ -9,6 +9,22 @@ padding: 15px;
 background-color: white;
 flex-direction: column;
 border-right: 1px solid #E0E0E0;
+    .addButton{
+        :hover, :active{
+            background-color: transparent!important;
+        }
+        .MuiTouchRipple-root{
+            display: none;
+        }
+        .MuiSvgIcon-root{
+            height: 1.7em;
+            width: 1.7em;
+            transition: .2s linear;
+            &:hover{
+                transform: scale(1.1);
+            }
+        }
+    }
 @media (max-width: 1000px){
         flex: 1;
         margin-bottom: 20px;
@@ -21,6 +37,7 @@ display: flex;
 height: 10vh;
 width: 100%;
 align-items: center;
+margin-bottom: 5px;
 justify-content: space-between;
 border-bottom: 1px solid #E0E0E0;
 `
@@ -33,7 +50,7 @@ width: fit-content;
         padding: 5px;
 
         .MuiSvgIcon-root {
-            font-size: 1.2rem !important;
+            font-size: 1.5rem !important;
             color: #D3D3D3;
             transition: 0.2s ease-in;
             :hover{
@@ -42,27 +59,23 @@ width: fit-content;
         }
     }
 `
-const SidebarAddButton = styled.button`
+const SidebarHeaderName = styled.p`
+display: block;
 font-weight: bold;
-font-size: 1.2rem;
-padding: 10px 30px;
-border: none;
-outline: none;
-background: transparent;
-margin-top: 10px;
-cursor: pointer;
+text-align: left;
+padding-left: 10px;
+flex: 1;
 `
 
 const SidebarSearch = styled.div`
 display: flex;
 width: 100%;
-margin-top: 15px;
+margin-bottom: 5px;
 align-items: center;
 justify-content: space-between;
-border-bottom: 1px solid #E0E0E0;
 
     & > .MuiIconButton-root{
-        font-size: 1.2rem !important;
+        font-size: 1.5rem !important;
         color: lightgray;
         &:hover{
             color: black;
@@ -128,4 +141,4 @@ flex-direction: column;
 
 
 
-export { SidebarWrapper, SidebarHeader, SidebarHeaderIcons, SidebarSearch, SidebarSearchInput, SidebarChat, ChatItem, ChatItemInfo, SidebarAddButton} 
+export { SidebarWrapper, SidebarHeader, SidebarHeaderIcons, SidebarSearch, SidebarSearchInput, SidebarChat, ChatItem, ChatItemInfo, SidebarHeaderName} 

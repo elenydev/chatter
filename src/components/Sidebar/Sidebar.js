@@ -1,5 +1,5 @@
 import React, {useEffect, useState, useRef} from 'react'
-import { SidebarWrapper, SidebarHeader, SidebarHeaderIcons, SidebarSearch, SidebarSearchInput, SidebarChat, SidebarAddButton } from './SiebarComps'
+import { SidebarWrapper, SidebarHeader, SidebarHeaderIcons, SidebarSearch, SidebarSearchInput, SidebarChat, SidebarHeaderName } from './SiebarComps'
 import { Avatar, IconButton } from '@material-ui/core';
 import AddCircleOutlineTwoToneIcon from '@material-ui/icons/AddCircleOutlineTwoTone';
 import ExitToAppTwoToneIcon from '@material-ui/icons/ExitToAppTwoTone';
@@ -73,10 +73,8 @@ function Sidebar() {
         <SidebarWrapper>
             <SidebarHeader>
                 <Avatar src={`${currentUser.photo}`}/>
+                <SidebarHeaderName>{currentUser.displayName}</SidebarHeaderName>
                 <SidebarHeaderIcons>
-                    <IconButton onClick={createChat}>
-                        <AddCircleOutlineTwoToneIcon />
-                    </IconButton>
                     <IconButton onClick={logOut}>
                         <ExitToAppTwoToneIcon />
                     </IconButton>
@@ -88,7 +86,9 @@ function Sidebar() {
                 </IconButton>
                 <SidebarSearchInput placeholder="Search for existing chat" ref={inputElement} onChange={SearchFunction}/>
             </SidebarSearch>
-            <SidebarAddButton onClick={createChat}>Add</SidebarAddButton>
+            <IconButton onClick={createChat} className="addButton">
+                <AddCircleOutlineTwoToneIcon />
+            </IconButton>
             <SidebarChat>
                 <div ref={roomStart}></div>
                 { rooms.length >=1 ? rooms.map( room =>(

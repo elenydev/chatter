@@ -25,6 +25,13 @@ a {
   width: 100%;
 }
 
+.active {
+  transform: translateY(20px) !important;
+  opacity: 1 !important;
+  pointer-events: visible !important;
+
+}
+
 .rta {
   flex: 1;
   margin-left: 5px;
