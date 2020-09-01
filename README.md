@@ -1,4 +1,4 @@
-### LIVE VERSION : https://chatter-9987a.web.app/
+### LIVE VERSION : https://chatter-9987a.firebaseapp.com/
 
 ## Available Scripts
 
