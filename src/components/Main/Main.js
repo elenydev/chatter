@@ -67,29 +67,16 @@ function Main() {
 
     const handleSearch = (e) =>{
         let message = (searchMessage.current.value).toLowerCase();
-        console.log(message)
-        if(e.key === "Enter"){
-            if(message){
-                if(messages.filter(msg => (msg.message).toLowerCase() === message)){
-                    const filtered = messages.filter(msg => (msg.message).toLowerCase() === message);
-                        if(filtered.length > 0 ){
-                            return setMessages(filtered), searchMessage.current.value = '', searchInput.classList.remove('active')
-                            
-                        }
-                        else {
-                            alert('Message not found')
-                            setMessages(messagesCopy)
-                            searchInput.classList.remove('active')
-                        }
-                    }
-                else{
-                    return null, setMessages(messagesCopy),searchInput.classList.remove('active')
-                }
-            }
-            else{
-                return null, setMessages(messagesCopy), alert('Message not found'), searchInput.classList.remove('active') 
-            }
-    }
+        if(message && message.trim().length > 0){
+            message = message.trim();
+            setMessages(messages.filter(msg => {
+                return (msg.message).toLowerCase().includes(message)
+            }))
+        }
+        else{
+            setMessages(messagesCopy);
+            searchMessage.current.value=''
+        }
     }
 
     const handleLinks = (message) =>{

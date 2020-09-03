@@ -57,17 +57,16 @@ function Sidebar() {
     
 
     const SearchFunction = () =>{
-        let value = inputElement.current.value
-        
-        if(rooms.filter(room => (room.data.name).toLowerCase() === (value).toLowerCase())){
-        const filtered = rooms.filter(room => (room.data.name).toLowerCase() === (value).toLowerCase());
-            if(filtered.length > 0 ) setRooms(filtered);
-            else setRooms(oldArr)
+        let value = (inputElement.current.value).toLowerCase()
+        if(value && value.trim().length > 0){
+            value = value.trim();
+            setRooms(rooms.filter(room =>{
+                return (room.data.name).toLowerCase().includes(value);
+            }));
         }
         else{
-            return null
+            setRooms(oldArr)
         }
-    
     }
     return (
         <SidebarWrapper>
