@@ -1,5 +1,5 @@
 import React, {useEffect, useState, useRef} from 'react'
-import { SidebarWrapper, SidebarHeader, SidebarHeaderIcons, SidebarSearch, SidebarSearchInput, SidebarChat, SidebarHeaderName } from './SiebarComps'
+import { SidebarWrapper, SidebarHeader, SidebarHeaderIcons, SidebarSearch, SidebarSearchInput, SidebarChat, SidebarHeaderName } from './sidebar.style'
 import { Avatar, IconButton } from '@material-ui/core';
 import AddCircleOutlineTwoToneIcon from '@material-ui/icons/AddCircleOutlineTwoTone';
 import ExitToAppTwoToneIcon from '@material-ui/icons/ExitToAppTwoTone';
@@ -71,21 +71,21 @@ function Sidebar() {
     return (
         <SidebarWrapper>
             <SidebarHeader>
-                <Avatar src={`${currentUser.photo}`}/>
+                <Avatar src={`${currentUser.photo}`} alt="Current User"/>
                 <SidebarHeaderName>{currentUser.displayName}</SidebarHeaderName>
                 <SidebarHeaderIcons>
-                    <IconButton onClick={logOut}>
+                    <IconButton onClick={logOut} label="logout">
                         <ExitToAppTwoToneIcon />
                     </IconButton>
                 </SidebarHeaderIcons>
             </SidebarHeader>
             <SidebarSearch>
-                <IconButton onClick={SearchFunction}>
-                    <SearchIcon />
+                <IconButton  htmlFor="searchChat" component="label">
+                    <SearchIcon  />
                 </IconButton>
-                <SidebarSearchInput placeholder="Search for existing chat" ref={inputElement} onChange={SearchFunction}/>
+                <SidebarSearchInput placeholder="Search for existing chat" id="searchChat" ref={inputElement} onChange={SearchFunction}/>
             </SidebarSearch>
-            <IconButton onClick={createChat} className="addButton">
+            <IconButton onClick={createChat} className="addButton" label="Create room">
                 <AddCircleOutlineTwoToneIcon />
             </IconButton>
             <SidebarChat>

@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import {MainFooter, MainFooterInput} from './MainComps'
+import {MainFooter, MainFooterInput} from './main.style'
 import SendIcon from '@material-ui/icons/Send';
 import {useSelector} from 'react-redux'
 import {selectUser} from '../../features/user/userSlice'
@@ -92,10 +92,10 @@ function Footer() {
                     }}
                   />
             <input type="file" id="sampleFile" style={{display:'none'}} onChange={fileChange} />
-            <IconButton htmlFor="sampleFile" component="label">
+            <IconButton htmlFor="sampleFile" component="label" role="none" label="Add file">
               <AttachFileIcon/>
             </IconButton>
-            <IconButton onClick={sendMsg}>
+            <IconButton onClick={sendMsg} label="Send Message">
                 <SendIcon />
             </IconButton>
         </MainFooter>

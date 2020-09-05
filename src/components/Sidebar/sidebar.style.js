@@ -20,7 +20,7 @@ border-right: 1px solid #E0E0E0;
             height: 1.7em;
             width: 1.7em;
             transition: .2s linear;
-            &:hover{
+            &:hover,:focus{
                 transform: scale(1.1);
             }
         }

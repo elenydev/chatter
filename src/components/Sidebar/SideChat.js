@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react'
-import { ChatItem, ChatItemInfo  } from './SiebarComps'
+import { ChatItem, ChatItemInfo  } from './sidebar.style'
 import { Avatar } from '@material-ui/core';
 import db from '../../services/firebase'
 import {

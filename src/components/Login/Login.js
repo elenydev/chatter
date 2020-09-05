@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { login, selectUser } from '../../features/user/userSlice'
 import { Redirect } from 'react-router'
 import * as firebase from 'firebase';
-import {LogoWrapper, LogoHeader, LogoImage, LogoButton} from './LoginComps'
+import {LogoWrapper, LogoHeader, LogoImage, LogoButton} from './login.style'
 function Login() {
     
     const users = useSelector(selectUser)
@@ -12,15 +12,15 @@ function Login() {
 
     const googleLogin = () =>{
         firebase.auth().signInWithPopup(provider).then((result) => {
-            const user = result.user;
+            const {email, displayName, photoURL} = result.user;
             dispatch(login({
-                email: user.email,
-                displayName: user.displayName,
-                photo: user.photoURL
+                email: email,
+                displayName: displayName,
+                photo: photoURL
             })); 
         })
         .catch(err =>{
-            console.log(err);
+            alert('Failed authentication')
         })
     }
     return (
