@@ -1,4 +1,37 @@
 ### LIVE VERSION : https://chatter-9987a.firebaseapp.com/
+## Chatter is chat application written in React with Firebase Backend. 
+## Core functionallity:
+* You can make rooms for conversations
+* All the data is sorted to show the newest messages
+* The messages are sorted between sender and recipient
+* There is option for sending images in chat
+* There is option for adding emoji 
+* You can filter the rooms
+* You can filter the messages
+* All is provided by Google Auth
+* Your avatar is fetched from google account
+* Your display name is fetched from google account
+* You can check the date of last message in room
+
+
+## All of the data are stored in Firebase/Firestore
+
+##Used technologies:
+* React
+* Redux toolkit
+* Styled Components
+* Firebase / Firestore
+* Material UI
+* emoji-datasource
+* simple-react-lightbox
+
+## Setup
+To run this project, install it locally using npm:
+
+* cd ../chatter
+* npm install
+* npm start
+
 
 ## Available Scripts
 
