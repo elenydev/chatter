@@ -21,6 +21,14 @@
 
 }
 
+.App__wrapper>a {
+  width: auto;
+  position: absolute;
+  bottom: 5%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
 @media (max-width: 1000px) {
   .App__wrapper {
     flex-direction: column;
