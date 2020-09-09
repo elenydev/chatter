@@ -10,7 +10,14 @@ export default () => {
   useEffect(() => {
     const setUser = (user) => {
       if (user) {
-        dispatch(login({ uid: user.uid, email: user.email }));
+        dispatch(
+          login({
+            uid: user.uid,
+            email: user.email,
+            displayName: user.displayName,
+            photo: user.photoURL,
+          })
+        );
       } else {
         dispatch(logout());
       }
