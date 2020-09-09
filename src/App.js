@@ -9,9 +9,10 @@ import { selectUser } from "./features/user/userSlice";
 import { ConfirmProvider } from "material-ui-confirm";
 import SimpleReactLightbox from "simple-react-lightbox";
 import Policy from "./components/Policy/Policy";
+import useAuth from "./Hooks/useAuth";
 
 function App() {
-  const currentUser = useSelector(selectUser);
+  const currentUser = useAuth();
 
   return (
     <ConfirmProvider>

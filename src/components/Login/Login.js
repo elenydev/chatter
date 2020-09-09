@@ -20,6 +20,7 @@ function Login() {
             email: user.email,
             displayName: user.displayName,
             photo: user.photoURL,
+            uid: user.uid,
           })
         );
       })
