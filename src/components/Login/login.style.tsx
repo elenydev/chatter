@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import logo from "../../assets/logo.png";
+
 const LogoWrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -9,11 +10,13 @@ const LogoWrapper = styled.div`
   height: 60%;
   margin: auto;
 `;
+
 const LogoHeader = styled.h2`
   font-weight: bold;
   margin: 20px;
   text-align: center;
 `;
+
 const LogoImage = styled.p`
   display: block;
   height: 20vh;
@@ -24,6 +27,7 @@ const LogoImage = styled.p`
   background-repeat: no-repeat;
   margin: 10px auto;
 `;
+
 const LogoButton = styled.button`
   cursor: pointer;
   display: block;

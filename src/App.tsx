@@ -3,15 +3,13 @@ import "./App.css";
 import Sidebar from "./components/Sidebar/Sidebar";
 import Main from "./components/Main/Main";
 import Login from "./components/Login/Login";
-import { useSelector } from "react-redux";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import { selectUser } from "./features/user/userSlice";
 import { ConfirmProvider } from "material-ui-confirm";
 import SimpleReactLightbox from "simple-react-lightbox";
 import Policy from "./components/Policy/Policy";
 import useAuth from "./Hooks/useAuth";
 
-function App() {
+const App = () => {
   const currentUser = useAuth();
 
   return (
@@ -44,6 +42,6 @@ function App() {
       </Router>
     </ConfirmProvider>
   );
-}
+};
 
 export default App;

@@ -5,22 +5,23 @@ import { login, selectUser } from "../../features/user/userSlice";
 import { Redirect, Link } from "react-router-dom";
 import * as firebase from "firebase";
 import { LogoWrapper, LogoHeader, LogoImage, LogoButton } from "./login.style";
-function Login() {
+
+const Login = () => {
   const users = useSelector(selectUser);
   const dispatch = useDispatch();
-
   const googleLogin = () => {
     firebase
       .auth()
       .signInWithPopup(provider)
       .then((result) => {
         const user = result.user;
+        const { email, displayName, photoURL, uid } = user!;
         dispatch(
           login({
-            email: user.email,
-            displayName: user.displayName,
-            photo: user.photoURL,
-            uid: user.uid,
+            email: email,
+            displayName: displayName,
+            photo: photoURL,
+            uid: uid,
           })
         );
       })
@@ -41,6 +42,6 @@ function Login() {
       <Link to='/policy'>Privacy Policy</Link>
     </>
   );
-}
+};
 
 export default Login;

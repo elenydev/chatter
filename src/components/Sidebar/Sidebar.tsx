@@ -14,33 +14,43 @@ import ExitToAppTwoToneIcon from "@material-ui/icons/ExitToAppTwoTone";
 import SearchIcon from "@material-ui/icons/Search";
 import SideChat from "./SideChat";
 import db from "../../services/firebase";
+import * as firebase from "firebase";
+import { Redirect } from "react-router";
+import "firebase/auth";
 import { selectUser, logout } from "../../features/user/userSlice";
 import { useSelector, useDispatch } from "react-redux";
 import { useConfirm } from "material-ui-confirm";
 
-function Sidebar() {
+const IconBtn: any = IconButton;
+
+const Sidebar = (): JSX.Element => {
   const confirm = useConfirm();
-  const [rooms, setRooms] = useState([]);
+  const [rooms, setRooms] = useState<Room[]>([]);
   const currentUser = useSelector(selectUser);
-  const inputElement = useRef(null);
-  const [oldArr, setOldArr] = useState([]);
-  const roomStart = useRef(null);
+  const { displayName, photo } = currentUser;
+  const inputElement = useRef<null | HTMLInputElement>(null);
+  const [oldArr, setOldArr] = useState<Room[]>([]);
+  const roomStart = useRef<HTMLDivElement>(null);
   const dispatch = useDispatch();
 
   const createChat = () => {
     const roomName = prompt("Please enter name of new chat room");
+
     if (roomName && roomName.length <= 15) {
       db.collection("rooms").add({
         name: roomName,
       });
-    } else if (roomName.trim().length === 0) {
-      alert("Please provide room name");
+    } else if (typeof roomName === "string") {
+      if (roomName.trim().length === 0) {
+        alert("Please provide room name");
+      }
     } else {
       alert(
         "Room name is too long, you can provide maximum 15 characters. Try again"
       );
     }
   };
+
   useEffect(() => {
     const unsubscribeRooms = db.collection("rooms").onSnapshot((snapshot) => {
       setRooms(
@@ -58,25 +68,27 @@ function Sidebar() {
     });
     return () => unsubscribeRooms();
   }, []);
+
   const scrollToBottom = () => {
-    if (roomStart) {
-      roomStart.current.scrollIntoView({
-        behavior: "smooth",
-        block: "end",
-        inline: "nearest",
-      });
-    } else return;
+    roomStart?.current?.scrollIntoView({
+      behavior: "smooth",
+      block: "end",
+      inline: "nearest",
+    });
   };
   useEffect(scrollToBottom, [rooms]);
 
   const logOut = () => {
     confirm({ description: "You want to log out?" })
-      .then(() => dispatch(logout()))
+      .then(() => {
+        return dispatch(logout()), firebase.auth().signOut();
+      })
+      .then(() => <Redirect to='/' />)
       .catch(() => null);
   };
 
-  const SearchFunction = () => {
-    let value = inputElement.current.value.toLowerCase();
+  const searchFunction = () => {
+    let value = inputElement?.current?.value.toLowerCase();
     if (value && value.trim().length > 0) {
       value = value.trim();
       setRooms(
@@ -88,15 +100,16 @@ function Sidebar() {
       setRooms(oldArr);
     }
   };
+
   return (
     <SidebarWrapper>
       <SidebarHeader>
-        <Avatar src={`${currentUser.photo}`} alt='Current User' />
-        <SidebarHeaderName>{currentUser.displayName}</SidebarHeaderName>
+        <Avatar src={`${photo}`} alt='Current User' />
+        <SidebarHeaderName>{displayName}</SidebarHeaderName>
         <SidebarHeaderIcons>
-          <IconButton onClick={logOut} label='logout'>
+          <IconBtn onClick={logOut} label='logout'>
             <ExitToAppTwoToneIcon />
-          </IconButton>
+          </IconBtn>
         </SidebarHeaderIcons>
       </SidebarHeader>
       <SidebarSearch>
@@ -107,16 +120,12 @@ function Sidebar() {
           placeholder='Search for existing chat'
           id='searchChat'
           ref={inputElement}
-          onChange={SearchFunction}
+          onChange={searchFunction}
         />
       </SidebarSearch>
-      <IconButton
-        onClick={createChat}
-        className='addButton'
-        label='Create room'
-      >
+      <IconBtn onClick={createChat} className='addButton' label='Create room'>
         <AddCircleOutlineTwoToneIcon />
-      </IconButton>
+      </IconBtn>
       <SidebarChat>
         <div ref={roomStart}></div>
         {rooms.length >= 1
@@ -127,6 +136,6 @@ function Sidebar() {
       </SidebarChat>
     </SidebarWrapper>
   );
-}
+};
 
 export default Sidebar;

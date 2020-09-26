@@ -23,17 +23,20 @@ const PolicyHeader = styled.h1`
   text-align: center;
   margin-bottom: 50px;
 `;
+
 const PolicyList = styled.ol`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
 `;
+
 const PolicyListItem = styled.li`
   font-weight: 500;
   font-size: 0.8em;
   margin: 5px 0;
 `;
+
 const PolicyFooter = styled.footer`
   width: 100%;
   font-size: 0.6em;
