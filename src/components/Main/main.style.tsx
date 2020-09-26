@@ -3,13 +3,13 @@ import ReactTextareaAutocomplete from "@webscopeio/react-textarea-autocomplete";
 
 const MainWrapper = styled.main`
   display: flex;
-  flex: 0.65;
+  flex: 1;
   height: 100%;
   background-color: white;
   flex-direction: column;
 
-  @media (max-width: 1000px) {
-    flex: 1;
+  @media (min-width: 1000px) {
+    flex: 0.65;
   }
 `;
 
@@ -18,12 +18,13 @@ const MainHeader = styled.div`
   width: 100%;
   border-bottom: 1px solid #e0e0e0;
   align-items: center;
-  height: 10vh;
+  height: 20vh;
   justify-content: space-between;
   padding: 15px;
   position: relative;
-  @media (max-width: 1000px) {
-    height: 20vh;
+
+  @media (min-width: 1000px) {
+    height: 10vh;
   }
 `;
 
@@ -76,21 +77,22 @@ const MainContent = styled.div`
   justify-content: flex-start;
   flex-direction: column;
   overflow-y: auto;
-  @media (max-width: 800px) {
-    min-height: 30vh;
+  min-height: 30vh;
+  @media (min-width: 800px) {
+    min-height: none;
   }
 `;
 
 const MainFooter = styled.form`
   display: flex;
-  height: 5vh;
-  padding: 15px;
+  height: 8vh;
+  padding: 20px 0;
   align-items: center;
   justify-content: space-between;
   background-color: #f0f0f0;
-  @media (max-width: 1000px) {
-    padding: 20px 0;
-    height: 8vh;
+  @media (min-width: 1000px) {
+    padding: 15px;
+    height: 5vh;
   }
 `;
 

@@ -127,7 +127,7 @@ const ChatItemInfo = styled.div`
   margin-left: 10px;
   flex-direction: column;
   & > h2 {
-    font-size: 1.5rem;
+    font-size: 1rem;
   }
   & > p {
     font-size: 0.9rem;
@@ -137,9 +137,9 @@ const ChatItemInfo = styled.div`
     display: inline-block;
     word-break: break-word;
   }
-  @media (max-width: 1000px) {
+  @media (min-width: 1000px) {
     & > h2 {
-      font-size: 1rem;
+      font-size: 1.5rem;
     }
   }
 `;

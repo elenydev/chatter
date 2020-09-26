@@ -3,7 +3,6 @@
 # dependencies
 node_modules
 .firebaserc
-firebase.tsx
 build
 .firebase
 firebase.json
