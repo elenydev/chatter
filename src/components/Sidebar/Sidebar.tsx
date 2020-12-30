@@ -14,8 +14,9 @@ import ExitToAppTwoToneIcon from "@material-ui/icons/ExitToAppTwoTone";
 import SearchIcon from "@material-ui/icons/Search";
 import SideChat from "./SideChat";
 import db from "../../services/firebase";
-import * as firebase from "firebase";
+import firebase from "firebase";
 import { Redirect } from "react-router";
+import { useHistory } from "react-router-dom";
 import "firebase/auth";
 import { selectUser, logout } from "../../features/user/userSlice";
 import { useSelector, useDispatch } from "react-redux";
@@ -32,6 +33,7 @@ const Sidebar = (): JSX.Element => {
   const [oldArr, setOldArr] = useState<Room[]>([]);
   const roomStart = useRef<HTMLDivElement>(null);
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const createChat = () => {
     const roomName = prompt("Please enter name of new chat room");
@@ -69,7 +71,7 @@ const Sidebar = (): JSX.Element => {
     return () => unsubscribeRooms();
   }, []);
 
-  const scrollToBottom = () => {
+  const scrollToBottom = (): void => {
     roomStart?.current?.scrollIntoView({
       behavior: "smooth",
       block: "end",
@@ -78,16 +80,17 @@ const Sidebar = (): JSX.Element => {
   };
   useEffect(scrollToBottom, [rooms]);
 
-  const logOut = () => {
+  const logOut = (): void => {
     confirm({ description: "You want to log out?" })
       .then(() => {
-        return dispatch(logout()), firebase.auth().signOut();
+        dispatch(logout());
+        firebase.auth().signOut();
+        history.push("/");
       })
-      .then(() => <Redirect to='/' />)
-      .catch(() => null);
+      .catch(() => undefined);
   };
 
-  const searchFunction = () => {
+  const searchFunction = (): void => {
     let value = inputElement?.current?.value.toLowerCase();
     if (value && value.trim().length > 0) {
       value = value.trim();

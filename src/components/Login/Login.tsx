@@ -3,7 +3,7 @@ import { provider } from "../../services/firebase";
 import { useSelector, useDispatch } from "react-redux";
 import { login, selectUser } from "../../features/user/userSlice";
 import { Redirect, Link } from "react-router-dom";
-import * as firebase from "firebase";
+import firebase from "firebase";
 import { LogoWrapper, LogoHeader, LogoImage, LogoButton } from "./login.style";
 
 const Login = () => {
