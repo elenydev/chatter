@@ -15,7 +15,6 @@ import SearchIcon from "@material-ui/icons/Search";
 import SideChat from "./SideChat";
 import db from "../../services/firebase";
 import firebase from "firebase";
-import { Redirect } from "react-router";
 import { useHistory } from "react-router-dom";
 import "firebase/auth";
 import { selectUser, logout } from "../../features/user/userSlice";
@@ -45,6 +44,7 @@ const Sidebar = (): JSX.Element => {
     } else if (typeof roomName === "string") {
       if (roomName.trim().length === 0) {
         alert("Please provide room name");
+        return;
       }
     } else {
       alert(
