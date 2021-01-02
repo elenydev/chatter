@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 
 const SideChat = ({ id, name }): JSX.Element => {
   const [lastMessage, setLastMessage] = useState([]);
+  const avatarURL = `https://avatars.dicebear.com/api/human/${id}.svg`;
 
   useEffect(() => {
     if (id) {
@@ -26,7 +27,7 @@ const SideChat = ({ id, name }): JSX.Element => {
     <>
       <Link key={id} to={`/rooms/${id}`}>
         <ChatItem id={id}>
-          <Avatar src={`https://avatars.dicebear.com/api/human/${id}.svg`} />
+          <Avatar src={avatarURL} />
           <ChatItemInfo>
             <h2>{name}</h2>
             <p>{lastMessage[0] ? lastMessage[0].message : "Empty room"}</p>

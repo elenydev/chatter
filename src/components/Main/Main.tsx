@@ -1,4 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
+import db from "../../services/firebase";
+import { useSelector } from "react-redux";
+import { selectUser } from "../../features/user/userSlice";
+import { useParams } from "react-router-dom";
+import "../../App.css";
+
 import {
   MainWrapper,
   MainHeader,
@@ -12,12 +18,7 @@ import {
 } from "./main.style";
 import { Avatar, IconButton } from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
-import db from "../../services/firebase";
-import { useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
-import { selectUser } from "../../features/user/userSlice";
 import Footer from "./Footer";
-import "../../index.css";
 import { https, http } from "../../Helpers/linksDetectors";
 import { SRLWrapper } from "simple-react-lightbox";
 
@@ -167,7 +168,7 @@ function Main() {
                       <span>{author}</span>
                     </MessageContent>
                   </SRLWrapper>
-                  <Avatar src={`${currentUser.photo}`} />
+                  <Avatar src={`${currentUser.photoURL}`} />
                 </OwnMessage>
               );
             } else {

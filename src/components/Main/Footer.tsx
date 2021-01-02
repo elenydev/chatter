@@ -1,16 +1,17 @@
 import React, { KeyboardEvent, useState } from "react";
-import { MainFooter, MainFooterInput } from "./main.style";
-import SendIcon from "@material-ui/icons/Send";
+import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { selectUser } from "../../features/user/userSlice";
-import firebase from "firebase";
 import db, { storage } from "../../services/firebase";
+import firebase from "firebase";
+import "../../App.css";
+
+import { MainFooter, MainFooterInput } from "./main.style";
+import SendIcon from "@material-ui/icons/Send";
 import { IconButton } from "@material-ui/core";
-import { useParams } from "react-router-dom";
 import "emoji-mart/css/emoji-mart.css";
 import { Picker, emojiIndex } from "emoji-mart";
 import MoodIcon from "@material-ui/icons/Mood";
-import "../../index.css";
 import AttachFileIcon from "@material-ui/icons/AttachFile";
 
 const IconBtn: any = IconButton;
@@ -25,17 +26,17 @@ const Footer = (): JSX.Element => {
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const [fileUrl, setFileUrl] = useState("");
 
-  const toggleEmojiPicker = () => {
+  const toggleEmojiPicker = (): void => {
     setShowEmojiPicker(!showEmojiPicker);
   };
 
-  const handleKeyPress = (e: KeyboardEvent<HTMLFormElement>) => {
+  const handleKeyPress = (e: KeyboardEvent<HTMLFormElement>): void => {
     if (e.key === "Enter") {
       e.preventDefault();
       sendMsg(e);
     }
   };
-  const fileChange = async (e: React.ChangeEvent) => {
+  const fileChange = async (e: React.ChangeEvent): Promise<void> => {
     const target = e.target as HTMLInputElement;
     const file = target.files[0];
     const fileRef = storage.child(file.name);
@@ -43,7 +44,7 @@ const Footer = (): JSX.Element => {
     setFileUrl(await fileRef.getDownloadURL());
   };
 
-  const sendMsg = (e: React.FormEvent<HTMLFormElement>) => {
+  const sendMsg = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
     db.collection("rooms").doc(roomId).collection("messages").add({
       message: input,
@@ -56,7 +57,7 @@ const Footer = (): JSX.Element => {
     setFileUrl("");
   };
 
-  const addEmoji = (emoji) => {
+  const addEmoji = (emoji: any): void => {
     const text = `${input}${emoji.native}`;
     setInputValue(text);
     toggleEmojiPicker();

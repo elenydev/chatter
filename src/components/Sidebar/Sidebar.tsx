@@ -1,4 +1,13 @@
 import React, { useEffect, useState, useRef } from "react";
+import { useHistory } from "react-router-dom";
+import "firebase/auth";
+import { selectUser, logout } from "../../features/user/userSlice";
+import { useSelector, useDispatch } from "react-redux";
+import db from "../../services/firebase";
+import firebase from "firebase";
+
+
+
 import {
   SidebarWrapper,
   SidebarHeader,
@@ -13,12 +22,7 @@ import AddCircleOutlineTwoToneIcon from "@material-ui/icons/AddCircleOutlineTwoT
 import ExitToAppTwoToneIcon from "@material-ui/icons/ExitToAppTwoTone";
 import SearchIcon from "@material-ui/icons/Search";
 import SideChat from "./SideChat";
-import db from "../../services/firebase";
-import firebase from "firebase";
-import { useHistory } from "react-router-dom";
-import "firebase/auth";
-import { selectUser, logout } from "../../features/user/userSlice";
-import { useSelector, useDispatch } from "react-redux";
+
 import { useConfirm } from "material-ui-confirm";
 
 const IconBtn: any = IconButton;
@@ -27,14 +31,14 @@ const Sidebar = (): JSX.Element => {
   const confirm = useConfirm();
   const [rooms, setRooms] = useState<Room[]>([]);
   const currentUser = useSelector(selectUser);
-  const { displayName, photo } = currentUser;
+  const { displayName, photoURL } = currentUser;
   const inputElement = useRef<null | HTMLInputElement>(null);
   const [oldArr, setOldArr] = useState<Room[]>([]);
   const roomStart = useRef<HTMLDivElement>(null);
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const createChat = () => {
+  const createChat = (): void => {
     const roomName = prompt("Please enter name of new chat room");
 
     if (roomName && roomName.length <= 15) {
@@ -53,24 +57,6 @@ const Sidebar = (): JSX.Element => {
     }
   };
 
-  useEffect(() => {
-    const unsubscribeRooms = db.collection("rooms").onSnapshot((snapshot) => {
-      setRooms(
-        snapshot.docs.map((doc) => ({
-          id: doc.id,
-          data: doc.data(),
-        }))
-      );
-      setOldArr(
-        snapshot.docs.map((doc) => ({
-          id: doc.id,
-          data: doc.data(),
-        }))
-      );
-    });
-    return () => unsubscribeRooms();
-  }, []);
-
   const scrollToBottom = (): void => {
     roomStart?.current?.scrollIntoView({
       behavior: "smooth",
@@ -78,7 +64,6 @@ const Sidebar = (): JSX.Element => {
       inline: "nearest",
     });
   };
-  useEffect(scrollToBottom, [rooms]);
 
   const logOut = (): void => {
     confirm({ description: "You want to log out?" })
@@ -104,10 +89,29 @@ const Sidebar = (): JSX.Element => {
     }
   };
 
+  useEffect(() => {
+    const unsubscribeRooms = db.collection("rooms").onSnapshot((snapshot) => {
+      setRooms(
+        snapshot.docs.map((doc) => ({
+          id: doc.id,
+          data: doc.data(),
+        }))
+      );
+      setOldArr(
+        snapshot.docs.map((doc) => ({
+          id: doc.id,
+          data: doc.data(),
+        }))
+      );
+    });
+    return () => unsubscribeRooms();
+  }, []);
+  useEffect(scrollToBottom, [rooms]);
+
   return (
     <SidebarWrapper>
       <SidebarHeader>
-        <Avatar src={`${photo}`} alt='Current User' />
+        <Avatar src={`${photoURL}`} alt='Current User' />
         <SidebarHeaderName>{displayName}</SidebarHeaderName>
         <SidebarHeaderIcons>
           <IconBtn onClick={logOut} label='logout'>

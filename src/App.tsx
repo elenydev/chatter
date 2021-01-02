@@ -7,9 +7,9 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { ConfirmProvider } from "material-ui-confirm";
 import SimpleReactLightbox from "simple-react-lightbox";
 import Policy from "./components/Policy/Policy";
-import useAuth from "./Hooks/useAuth";
+import { useAuth } from "./Hooks/useAuth";
 
-const App = () => {
+const App = (): JSX.Element => {
   const currentUser = useAuth();
 
   return (

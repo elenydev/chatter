@@ -6,10 +6,10 @@ import { Redirect, Link } from "react-router-dom";
 import firebase from "firebase";
 import { LogoWrapper, LogoHeader, LogoImage, LogoButton } from "./login.style";
 
-const Login = () => {
-  const users = useSelector(selectUser);
+const Login = (): JSX.Element => {
+  const users: User = useSelector(selectUser);
   const dispatch = useDispatch();
-  const googleLogin = () => {
+  const googleLogin = (): void => {
     firebase
       .auth()
       .signInWithPopup(provider)
@@ -18,10 +18,10 @@ const Login = () => {
         const { email, displayName, photoURL, uid } = user!;
         dispatch(
           login({
-            email: email,
-            displayName: displayName,
-            photo: photoURL,
-            uid: uid,
+            email,
+            displayName,
+            photoURL,
+            uid,
           })
         );
       })

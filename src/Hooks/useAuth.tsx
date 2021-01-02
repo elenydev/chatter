@@ -3,20 +3,20 @@ import { useDispatch, useSelector } from "react-redux";
 import { login, logout, selectUser } from "../features/user/userSlice";
 import { auth } from "../services/firebase";
 
-export default () => {
+export const useAuth = (): User => {
   const dispatch = useDispatch();
-  const currentUser = useSelector(selectUser);
+  const currentUser: User | null = useSelector(selectUser);
 
   useEffect(() => {
-    const setUser = (user) => {
+    const setUser = (user: User) => {
       const { uid, email, displayName, photoURL } = user;
       if (user) {
         dispatch(
           login({
-            uid: uid,
-            email: email,
-            displayName: displayName,
-            photo: photoURL,
+            uid,
+            email,
+            displayName,
+            photoURL,
           })
         );
       } else {
